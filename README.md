@@ -1,3 +1,6 @@
+# News - 03/04/2018
+I will update the extension soon, I restart the project and I remake all the code with a most performant algorythm.
+
 # Cop-It-Supreme-Bot
 Supreme bot extension for Google Chrome. With this bot you can cop any item you want. Make with JavaScript, jQuery and Bootstrap 4.
 
