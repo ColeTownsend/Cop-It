@@ -1,6 +1,6 @@
 # Cop It
 
-__INFO__: v2.0 is now available! More efficient, more lightweight, still user-friendly and of course still free!
+__INFO__: v2.0 is now available! More efficient, more lightweight, still user-friendly and of course still free! And works for SS18!
 
 Cop It is a Chrome Extension used to purchase any Supreme's item on each drop. Works on Windows, Mac and Linux.
 
@@ -22,7 +22,7 @@ No compilation is needed, you must just have Google Chrome.
 3. Click on `Load unpacked extensions...` and choose the folder you just download.
 4. The extension is now installed!
 
-### Some things to know
+## Some things to know
 
 On the features tabs on the settings page, you can see some options, I will try to explain them to you.
 - __Check cart before checkout__: When you use the bots with keywords, you will be redirected to your cart when keywords have been done.
