@@ -3,6 +3,7 @@
 __INFO__: v2.0 is now available! More efficient, more lightweight, still user-friendly and of course still free! And works for SS18!
 
 Cop It is a Chrome Extension used to purchase any Supreme's item on each drop. Works on Windows, Mac and Linux.
+Design is very simplist but it works nice.
 
 ## Features
 
