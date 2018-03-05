@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cop It</title>
+	<link rel="stylesheet" type="text/css" href="./../css/style.css">
+	<script src="./../js/lib/jquery-3.2.1.min.js"></script>
+	<script src="./../js/lib/anime.min.js"></script>
+	<script src="./../js/lib/notify.min.js""></script>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<div class="bogo">
+		<div class="sup">
+	    	<p id="name">Supreme</p>
+		</div>
+	</div>
+	<div class="region">
+		<p>Choose your store</p>
+		<img src="./../img/us.png" store="us" />
+		<img src="./../img/gb.png" store="gb" />
+		<!-- <img src="./../img/jpn.png" store="jpn" /> JAPAN NOT SUPPORTED ACTUALLY -->
+	</div>
+	<div class="menu">
+		<table>
+			<tr>
+				<td toggle="features">
+					Features
+					<p class="desc">Set all your wanted features.</p>
+				</td>
+				<td toggle="keywords">
+					Keywords
+					<p class="desc">Choose your keywords.</p>
+				</td>
+			</tr>
+			<tr>
+				<td toggle="details">
+					Details
+					<p class="desc">Set all your personnal details there.</p>
+				</td>
+				<td toggle="usage">
+					Usage
+					<p class="desc">How copit works.</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="page" id="features">
+		<a href="#" title="Back to menu"><span class="left"></span></a>
+		<h1>Features</h1>
+		<p class="info">All features who aren't barred below are enabled. Please read usage section.</p>
+    	<ul>
+    		<li class="option" name="enable">Enable extension</li>
+    		<ul>
+    			<li class="option" name="checkCart">Check cart before checkout (with keywords)</li>
+    			<li class="option" name="autoFill">Auto-fill checkout page</li>
+    			<ul>
+	    			<li class="option" name="autoSubmit">Auto submit checkout page (not coded yet)</li>
+    			</ul>
+    			<li class="option" name="autoStart">Automatic start when items list is updated</li>
+    			<li class="option" name="copOnRestock">Cop on restock if keywords match</li>
+    			<li class="option" name="removeAssets">Remove all images on Supreme's website</li>
+    		</ul>
+    	</ul>
+	</div>
+	<div class="page" id="keywords">
+		<a href="#" title="Back to menu"><span class="left"></span></a>
+		<h1>Keywords</h1>
+
+		<div class="bordered list">
+			<p>Keywords Set</p>
+			<div class="item-list">
+				<table>
+					
+				</table>
+			</div>
+		</div>
+
+		<div class="bordered list" id="add-manual">
+			<p>Enter manual keywords</p>
+			<div class="form-group">
+				<label for="category">Category</label>
+				<select class="form-control" id="category">
+                    <option value="jackets">jackets</option>
+                    <option value="shirts">shirts</option>
+                    <option value="tops_sweaters">tops/sweaters</option>
+                    <option value="sweatshirts">sweatshirts</option>
+                    <option value="pants">pants</option>
+                    <option value="shorts">shorts</option>
+                    <option value="t-shirts">t-shirts</option>
+                    <option value="hats">hats</option>
+                    <option value="bags">bags</option>
+                    <option value="shoes">shoes</option>
+                    <option value="accessories">accessories</option>
+                    <option value="skate">skate</option>
+                </select>
+			</div>
+			<div class="form-group">
+				<label for="kwds">Keywords</label>
+				<input type="text" id="kwds" />
+			</div>
+			<div class="form-group">
+				<label for="color">Color</label>
+				<input type="text" id="color" />
+			</div>
+			<div class="form-group">
+				<label>Size Order</label>
+				<div id="sizes">
+					<button type="button" class="button-size"><p class="size-num"></p>Small</button>
+					<button type="button" class="button-size"><p class="size-num"></p>Medium</button>
+					<button type="button" class="button-size"><p class="size-num"></p>Large</button>
+					<button type="button" class="button-size"><p class="size-num"></p>XLarge</button>
+				</div>
+			</div>
+			<button type="button" class="submit">Add</button>
+		</div>
+	</div>
+	<div class="page" id="details">
+		<a href="#" title="Back to menu"><span class="left"></span></a>
+		<h1>Details</h1>
+
+		<div class="bordered list">
+			<div id="shipping">
+				<p class="title">Shipping data</p>
+				<p class="notice">
+				All information are stored locally only. We don't have access to them.
+				</p>
+				<button class="right-arrow">
+					Billing details
+				</button>
+				<div class="form-group">
+					<label for="fullname">Full Name</label>
+					<input type="text" id="fullname" />
+				</div>
+				<div class="form-group">
+					<label for="email">Email Adress</label>
+					<input type="text" id="email" />
+				</div>
+				<div class="form-group">
+					<label for="phone">Phone Number</label>
+					<input type="text" id="phone" />
+				</div>
+				<div class="form-group">
+					<label for="addr1">Adress 1</label>
+					<input type="text" id="addr1" />
+				</div>
+				<div class="form-group">
+					<label for="addr2">Adress 2</label>
+					<input type="text" id="addr2" />
+				</div>
+				<div class="form-group">
+					<label for="addr3">Adress 3</label>
+					<input type="text" id="addr3" />
+				</div>
+				<div class="form-group">
+					<label for="city">City</label>
+					<input type="text" id="city" />
+				</div>
+				<div class="form-group">
+					<label for="zip">Zip Code</label>
+					<input type="text" id="zip" />
+				</div>
+				<div class="form-group" style="display: none;">
+					<label for="state">State</label>
+					<select id="state">
+						<option disabled="disabled"></option>
+						<option value="" disabled="disabled">USA states - Canada below</option>
+                        <option value="AL">AL</option>
+                        <option value="AK">AK</option>
+                        <option value="AS">AS</option>
+                        <option value="AZ">AZ</option>
+                        <option value="AR">AR</option>
+                        <option value="CA">CA</option>
+                        <option value="CO">CO</option>
+                        <option value="CT">CT</option>
+                        <option value="DE">DE</option>
+                        <option value="DC">DC</option>
+                        <option value="FM">FM</option>
+                        <option value="FL">FL</option>
+                        <option value="GA">GA</option>
+                        <option value="GU">GU</option>
+                        <option value="HI">HI</option>
+                        <option value="ID">ID</option>
+                        <option value="IL">IL</option>
+                        <option value="IN">IN</option>
+                        <option value="IA">IA</option>
+                        <option value="KS">KS</option>
+                        <option value="KY">KY</option>
+                        <option value="LA">LA</option>
+                        <option value="ME">ME</option>
+                        <option value="MH">MH</option>
+                        <option value="MD">MD</option>
+                        <option value="MA">MA</option>
+                        <option value="MI">MI</option>
+                        <option value="MN">MN</option>
+                        <option value="MS">MS</option>
+                        <option value="MO">MO</option>
+                        <option value="MT">MT</option>
+                        <option value="NE">NE</option>
+                        <option value="NV">NV</option>
+                        <option value="NH">NH</option>
+                        <option value="NJ">NJ</option>
+                        <option value="NM">NM</option>
+                        <option value="NY">NY</option>
+                        <option value="NC">NC</option>
+                        <option value="ND">ND</option>
+                        <option value="MP">MP</option>
+                        <option value="OH">OH</option>
+                        <option value="OK">OK</option>
+                        <option value="OR">OR</option>
+                        <option value="PW">PW</option>
+                        <option value="PA">PA</option>
+                        <option value="PR">PR</option>
+                        <option value="RI">RI</option>
+                        <option value="SC">SC</option>
+                        <option value="SD">SD</option>
+                        <option value="TN">TN</option>
+                        <option value="TX">TX</option>
+                        <option value="UT">UT</option>
+                        <option value="VT">VT</option>
+                        <option value="VI">VI</option>
+                        <option value="VA">VA</option>
+                        <option value="WA">WA</option>
+                        <option value="WV">WV</option>
+                        <option value="WI">WI</option>
+                        <option value="WY">WY</option>
+	                    <option value="" disabled="disabled">CANADA</option>
+	                    <option value="AB">AB</option>
+                        <option value="BC">BC</option>
+                        <option value="MB">MB</option>
+                        <option value="NB">NB</option>
+                        <option value="NL">NL</option>
+                        <option value="NT">NT</option>
+                        <option value="NS">NS</option>
+                        <option value="NU">NU</option>
+                        <option value="ON">ON</option>
+                        <option value="PE">PE</option>
+                        <option value="QC">QC</option>
+                        <option value="SK">SK</option>
+                        <option value="YT">YT</option>
+	                </select>
+				</div>
+				<div class="form-group">
+					<label for="country">Country</label>
+					<select id="country">
+	                    <option value="FR">FRANCE</option>
+	                    <option value="USA">USA</option>
+	                    <option value="CANADA">CANADA</option>
+	                    <option value="GB">UK</option>
+	                    <option value="NB">UK (N. IRELAND)</option>
+	                    <option value="" disabled="disabled">-</option>
+	                    <option value="AT">AUSTRIA</option>
+	                    <option value="BY">BELARUS</option>
+	                    <option value="BE">BELGIUM</option>
+	                    <option value="BG">BULGARIA</option>
+	                    <option value="HR">CROATIA</option>
+	                    <option value="CZ">CZECH REPUBLIC</option>
+	                    <option value="DK">DENMARK</option>
+	                    <option value="EE">ESTONIA</option>
+	                    <option value="FI">FINLAND</option>
+	                    <option value="DE">GERMANY</option>
+	                    <option value="GR">GREECE</option>
+	                    <option value="HU">HUNGARY</option>
+	                    <option value="IS">ICELAND</option>
+	                    <option value="IE">IRELAND</option>
+	                    <option value="IT">ITALY</option>
+	                    <option value="LV">LATVIA</option>
+	                    <option value="LT">LITHUANIA</option>
+	                    <option value="LU">LUXEMBOURG</option>
+	                    <option value="MC">MONACO</option>
+	                    <option value="NL">NETHERLANDS</option>
+	                    <option value="NO">NORWAY</option>
+	                    <option value="PL">POLAND</option>
+	                    <option value="PT">PORTUGAL</option>
+	                    <option value="RO">ROMANIA</option>
+	                    <option value="RU">RUSSIA</option>
+	                    <option value="SK">SLOVAKIA</option>
+	                    <option value="SI">SLOVENIA</option>
+	                    <option value="ES">SPAIN</option>
+	                    <option value="SE">SWEDEN</option>
+	                    <option value="CH">SWITZERLAND</option>
+	                    <option value="TR">TURKEY</option>
+	                </select>
+				</div>
+				<button type="button" class="submit">Save</button>
+			</div>
+			<div id="billing" style="display: none;">
+				<p class="title">Billing data</p>
+				<p class="notice">
+					All information are stored locally only. We don't have access to them.
+				</p>
+				<button class="left-arrow">
+					Shipping details
+				</button>
+				<div class="form-group">
+					<label for="credit_type">Card type</label>
+					<select class="form-control" id="credit_type">
+	                    <option value="visa">Visa</option>
+	                    <option value="master">Mastercard</option>
+	                    <option value="american_express">AMEX</option>
+	                </select>
+				</div>
+				<div class="form-group">
+					<label for="credit_num">Card number</label>
+					<input type="text" id="credit_num" />
+				</div>
+				<div class="form-group">
+					<label for="credit_month">Card expiration</label>
+					<select style="width: 18%" class="form-control" id="credit_month"></select>
+                    <select style="width: 17%" class="form-control" id="credit_year"></select>
+				</div>
+				<div class="form-group">
+					<label for="credit_cvv">CVV</label>
+					<input type="text" id="credit_cvv" />
+				</div>
+				<button type="button" class="submit">Save</button>
+			</div>
+		</div>
+	</div>
+	<div class="page" id="usage">
+		<a href="#" title="Back to menu"><span class="left"></span></a>
+		<h1>Usage</h1>
+
+		<p>Don't have the time actually.</p>
+	</div>
+	<footer>
+		© CHLEC
+	</footer>
+	<script type="text/javascript" src="./../js/settings.js"></script>
+</body>
+</html>

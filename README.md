@@ -1,33 +1,41 @@
-# News - 03/04/2018
-I will update the extension soon, I restart the project and I remake all the code with a most performant algorythm.
+# Cop It
 
-# Cop-It-Supreme-Bot
-Supreme bot extension for Google Chrome. With this bot you can cop any item you want. Make with JavaScript, jQuery and Bootstrap 4.
+__INFO__: v2.0 is now available! More efficient, more lightweight, still user-friendly and of course still free!
 
-### Changelog
-* __v1.1.7__ - For USA store, correct selectors for Add to Cart and for checkout credit card fields.
-
-* __v1.1.6__ - Feature "Remove all images on Supreme's website" has been added.
+Cop It is a Chrome Extension used to purchase any Supreme's item on each drop. Works on Windows, Mac and Linux.
 
 ## Features
-* You can run the bot in background, just open tab on "supremenewyork.com" page and start the bot on other tab.
-* All sizes available (pants, top, shoes)
-* USA, CANADA and EUROPE are supported.
-* Multi keywords management, choose color and size
-* Instant buy button on every item page
-* Start at wanted time
-* Bypass reCaptcha
-* Auto-fill checkout page
-* Retry when checkout failed
-* Retry when keywords search failed
 
-## Installation
-Go to [chrome://extensions](chrome://extensions), then enable "Developer Mode" and drag the file `CopIt.crx` (you can find it in `bin` folder) on the page.
+- Multiple items keywords
+- All sizes supported
+- Instant buy button on every item page
+- USA, Canada and Europe supported (not Japan actually)
+- Smart auto-fill
+- Start at the second when the new drop is online! (connected to a server)
 
-So if you want to build yourself with your modifications, just run `npm install`, then `gulp` and finally `gulp build`
+## Set up
 
-Go to the settings page and fill it with all settings you want.
+No compilation is needed, you must just have Google Chrome.
 
-## Documentation
-You can find all information on the settings page, you can contact me at support@copit.fr if you wanna know something.
+1. Clone the repository using `git clone https://github.com/chlec/Cop-It` or download it as zip (you must unzip it if you choose this method).
+2. Open a Google Chrome window and go to this url `chrome://extensions/`
+3. Click on `Load unpacked extensions...` and choose the folder you just download.
+4. The extension is now installed!
 
+### Some things to know
+
+On the features tabs on the settings page, you can see some options, I will try to explain them to you.
+- __Check cart before checkout__: When you use the bots with keywords, you will be redirected to your cart when keywords have been done.
+- __Auto-fill checkout page__: I think this is explicit.
+- __Auto submit checkout page__: Actually disabled due to the increase of Supreme's anti-bot security.
+- __Automatic start when items list is updated__: If this feature is enabled, when you click on the __START__ button in the pop-up page, the extension will connect to one of my server using WebSocket to know exactly when the drop is updated. i.e if the drop release at 11:00:06am the bot will start at 11:00:06am.
+- __Cop on restock if keywords match__: Similar like the previous one, the extension will connect to one of my server too and will start when a restock match with one of your keywords. To start this feature you should click on __COP ON RESTOCK__ button in the pop-up page.
+- __Remove all images on Supreme's website__: Simply to increase your chance of cop if you have a low connection speed.
+
+To cop during the drop enter all your details, keywords, and click on Start 20-30 seconds before the drop. To be quick, simply use "Auto-fill checkout page" and "Automatic start when items list is updated". The bot will put the items to your cart, redirect you to check-out page, fill this one and you just have to click on "proccess payment" button.
+
+### Tips
+
+To don't have captcha on the check-out, I recommand you to resolve many captchas 5 minutes before the drop. You can do this on this link: http://checkmeout.pro/recaptcha.html
+
+Contact me at support@copit.fr if you have any question or you can post an issue.
