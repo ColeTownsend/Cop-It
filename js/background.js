@@ -1,6 +1,6 @@
 'use strict';
 
-var HOST;//DON'T TOUCH!
+var HOST;
 var socket;
 localStorage.BOT_RUNNING = 0;
 localStorage.data = localStorage.data || "{}";
