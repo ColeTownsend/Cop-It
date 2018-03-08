@@ -1,7 +1,7 @@
 'use strict';
 
-var HOST;
-var socket;
+let HOST;
+let socket;
 localStorage.BOT_RUNNING = 0;
 localStorage.data = localStorage.data || "{}";
 localStorage.options = localStorage.options || "{}";
@@ -36,12 +36,14 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 											socket.close();
 											clearInterval(ping);
 										}
-									}, 10000);
+									}, 5000);
 								};
-								socket.onmessage = () => {
-							 		Supreme.startCop(tabId);
-							 		socket.close();
-							 		clearInterval(ping);
+								socket.onmessage = event => {
+									if (event.data !== "ping" && JSON.parse(event.data).nd) {
+								 		Supreme.startCop(tabId);
+								 		socket.close();
+								 		clearInterval(ping);
+							 		}
 								}
 							} else {
 								Supreme.startCop(tabId);
@@ -67,27 +69,29 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 								socket.close();
 								clearInterval(ping);
 							}
-						}, 10000);
+						}, 5000);
 					};
 					socket.onmessage = event => {
-						var item = JSON.parse(event.data);
-	
-						for (var keyword of Object.values(keywords)) {
-							keyword = JSON.parse(keyword);
-							if (item.url.split('/')[2] == keyword.category) {
-								if (keyword.color == " " || item.color.toLowerCase().replace(/[^\x20-\x7E]/g, '').indexOf(keyword.color) > -1) {
-									var allkeywords = keyword.keywords.split(" ");
-									var matches = 0;
-									allkeywords.forEach(kw => {
-										if (item.name.toLowerCase().replace(/[^\x20-\x7E]/g, '').indexOf(kw) > -1)
-											matches++;
-									})
-									if (matches === allkeywords.length) {
-										localStorage.BOT_RUNNING = 0;
-										Supreme.copItem(tabId, item.url);
-										socket.close();
-										clearInterval(ping);
-										break;
+						if (event.data !== "ping") {
+							var item = JSON.parse(event.data);
+		
+							for (var keyword of Object.values(keywords)) {
+								keyword = JSON.parse(keyword);
+								if (item.url.split('/')[2] == keyword.category) {
+									if (keyword.color == " " || item.color.toLowerCase().replace(/[^\x20-\x7E]/g, '').indexOf(keyword.color) > -1) {
+										var allkeywords = keyword.keywords.split(" ");
+										var matches = 0;
+										allkeywords.forEach(kw => {
+											if (item.name.toLowerCase().replace(/[^\x20-\x7E]/g, '').indexOf(kw) > -1)
+												matches++;
+										})
+										if (matches === allkeywords.length) {
+											localStorage.BOT_RUNNING = 0;
+											Supreme.copItem(tabId, item.url);
+											socket.close();
+											clearInterval(ping);
+											break;
+										}
 									}
 								}
 							}
