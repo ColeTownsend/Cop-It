@@ -91,9 +91,10 @@ $(document).ready(function() {
 		(function displayOption() {
 			var options = JSON.parse(localStorage.options);
 
-			Object.keys(options).forEach(key => {
-				if (!options[key])
-					document.querySelector(`[name=${key}]`).classList.add("disabled");
+			document.querySelectorAll('.option').forEach(el => {
+				let name = el.getAttribute("name");
+				if (!options[name])
+					el.classList.add("disabled");
 			});
 		})();
 
