@@ -232,7 +232,6 @@ li > a {
 }
 
 .left {
-  transition: all 0.3s;
   text-align: center;
   top: 325px;
   left: 50%;
