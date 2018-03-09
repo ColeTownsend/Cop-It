@@ -11,7 +11,7 @@ const DIFFERENT_SIZE =
 				'<button type="button" class="button-size"><p class="size-num"></p>Small</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>Medium</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>Large</button>' +
-				'<button type="button" class="button-size"><p class="size-num"></p>XLarge</button>' +
+				'<button type="button" class="button-size"><p class="size-num"></p>XLarge</button><br>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>30</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>32</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>34</button>' +
@@ -19,11 +19,11 @@ const DIFFERENT_SIZE =
 	    "shoes":
 	    		'<button type="button" class="button-size"><p class="size-num"></p>US 7 / UK 6</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 7.5 / UK 6.5</button>' +
-				'<button type="button" class="button-size"><p class="size-num"></p>US 8 / UK 7</button>' +
+				'<button type="button" class="button-size"><p class="size-num"></p>US 8 / UK 7</button><br>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 8.5 / UK 7.5</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 9 / UK 8</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 9.5 / UK 8.5</button>' +
-				'<button type="button" class="button-size"><p class="size-num"></p>US 10 / UK 9</button>' +
+				'<button type="button" class="button-size"><p class="size-num"></p>US 10 / UK 9</button><br>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 10.5 / UK 9.5</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 11 / UK 10</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 11.5 / UK 10.5</button>' +
