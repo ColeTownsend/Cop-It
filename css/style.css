@@ -229,6 +229,7 @@ li > a {
 .page {
   text-align: center;
   display: none;
+  margin-bottom: 50px;
 }
 
 .left {
@@ -247,7 +248,8 @@ li > a {
 .page#features {
   width: 450px;
   text-align: center;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .page#features > h1 {
