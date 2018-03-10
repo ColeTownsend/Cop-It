@@ -11,7 +11,7 @@ const DIFFERENT_SIZE =
 				'<button type="button" class="button-size"><p class="size-num"></p>Small</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>Medium</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>Large</button>' +
-				'<button type="button" class="button-size"><p class="size-num"></p>XLarge</button>' +
+				'<button type="button" class="button-size"><p class="size-num"></p>XLarge</button><br>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>30</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>32</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>34</button>' +
@@ -19,11 +19,11 @@ const DIFFERENT_SIZE =
 	    "shoes":
 	    		'<button type="button" class="button-size"><p class="size-num"></p>US 7 / UK 6</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 7.5 / UK 6.5</button>' +
-				'<button type="button" class="button-size"><p class="size-num"></p>US 8 / UK 7</button>' +
+				'<button type="button" class="button-size"><p class="size-num"></p>US 8 / UK 7</button><br>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 8.5 / UK 7.5</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 9 / UK 8</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 9.5 / UK 8.5</button>' +
-				'<button type="button" class="button-size"><p class="size-num"></p>US 10 / UK 9</button>' +
+				'<button type="button" class="button-size"><p class="size-num"></p>US 10 / UK 9</button><br>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 10.5 / UK 9.5</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 11 / UK 10</button>' +
 				'<button type="button" class="button-size"><p class="size-num"></p>US 11.5 / UK 10.5</button>' +
@@ -37,16 +37,10 @@ const DIFFERENT_SIZE =
 
 $(document).ready(function() {
 	setInterval(bogoPlay, 6000);
-
 	//first run
 	if (!localStorage.store)
 	{
-		anime({
-			targets: '.bogo',
-			top: 0,
-			delay: 1000,
-			duration: 1000
-		}).complete = () => fadeIn(document.querySelector('.region'));
+		fadeIn(document.querySelector('.region'));
 
 		document.querySelectorAll('.region img').forEach(e => {
 			e.onclick = function() {
@@ -57,11 +51,7 @@ $(document).ready(function() {
 		})
 	}
 	else
-		anime({
-			targets: '.bogo',
-			top: 0,
-			duration: 800
-		}).complete = () => fadeIn(document.querySelector('.menu'));
+		fadeIn(document.querySelector('.menu'));
 
 	/*
 		<navigation>
@@ -91,10 +81,9 @@ $(document).ready(function() {
 		(function displayOption() {
 			var options = JSON.parse(localStorage.options);
 
-			document.querySelectorAll('.option').forEach(el => {
-				let name = el.getAttribute("name");
-				if (!options[name])
-					el.classList.add("disabled");
+			Object.keys(options).forEach(key => {
+				if (!options[key])
+					document.querySelector(`[name=${key}]`).classList.add("disabled");
 			});
 		})();
 
@@ -144,7 +133,7 @@ $(document).ready(function() {
 				keywords = JSON.parse(keywords);
 				Object.keys(keywords).forEach(key => {
 					var e = JSON.parse(keywords[key]);
-					$("#keywords table").append(`<tr id="${key}"><td><b>Keywords:</b> ${e.keywords}; <b>Color:</b> ${e.color}; <b>Category:</b> ${e.category}; <b>Size order:</b> ${e.size.join()}</td><td>X</td></tr>`);
+					$("#keywords table").append(`<tr id="${key}"><td><b>Keywords:</b> ${e.keywords}<br> <b>Color:</b> ${e.color}<br> <b>Category:</b> ${e.category}<br> <b>Size order:</b> ${e.size.join()}</td><td><p align="center">X</p></td></tr>`);
 				})
 			}
 		})();
@@ -252,7 +241,7 @@ $(document).ready(function() {
 			$("#keywords table")
 				.fadeOut(500, function() {
 					$(this)
-						.append(`<tr id="${id}"><td><b>Keywords:</b> ${kwds}; <b>Color:</b> ${color}; <b>Category:</b> ${category}; <b>Size order:</b> ${size.join()}</td><td>X</td></tr>`)
+						.append(`<tr id="${id}"><td><b>Keywords:</b> ${kwds}<br> <b>Color:</b> ${color}<br> <b>Category:</b> ${category}<br> <b>Size order:</b> ${size.join()}</td><td><p align="center">X</p></td></tr>`)
 						.fadeIn(500, () => enableRemoveCross());
 				});
 			$("#category, #color, #kwds").val(null);

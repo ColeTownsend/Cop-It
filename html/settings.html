@@ -9,11 +9,13 @@
 	<meta charset="UTF-8">
 </head>
 <body>
-	<div class="bogo">
-		<div class="sup">
-	    	<p id="name">Supreme</p>
-		</div>
-	</div>
+	<header id="header">
+		<hgroup>
+			<div class="sup">
+				<p id="name">Supreme</p>
+			</div>
+		</hgroup>
+	</header>
 	<div class="region">
 		<p>Choose your store</p>
 		<img src="./../img/us.png" store="us" />
@@ -45,7 +47,6 @@
 		</table>
 	</div>
 	<div class="page" id="features">
-		<a href="#" title="Back to menu"><span class="left"></span></a>
 		<h1>Features</h1>
 		<p class="info">All features who aren't barred below are enabled. Please read usage section.</p>
     	<ul>
@@ -59,11 +60,11 @@
     			<li class="option" name="autoStart">Automatic start when items list is updated</li>
     			<li class="option" name="copOnRestock">Cop on restock if keywords match</li>
     			<li class="option" name="removeAssets">Remove all images on Supreme's website</li>
-    		</ul>
-    	</ul>
+			</ul>
+		</ul>
+		<a href="#" title="Back to menu"><span class="left"></span></a>
 	</div>
 	<div class="page" id="keywords">
-		<a href="#" title="Back to menu"><span class="left"></span></a>
 		<h1>Keywords</h1>
 
 		<div class="bordered list">
@@ -113,20 +114,13 @@
 			</div>
 			<button type="button" class="submit">Add</button>
 		</div>
+		<a href="#" title="Back to menu"><span class="left"></span></a>
 	</div>
 	<div class="page" id="details">
-		<a href="#" title="Back to menu"><span class="left"></span></a>
 		<h1>Details</h1>
-
 		<div class="bordered list">
 			<div id="shipping">
 				<p class="title">Shipping data</p>
-				<p class="notice">
-				All information are stored locally only. We don't have access to them.
-				</p>
-				<button class="right-arrow">
-					Billing details
-				</button>
 				<div class="form-group">
 					<label for="fullname">Full Name</label>
 					<input type="text" id="fullname" />
@@ -282,15 +276,12 @@
 	                </select>
 				</div>
 				<button type="button" class="submit">Save</button>
+				<button class="right-arrow">
+					Billing details
+				</button>
 			</div>
 			<div id="billing" style="display: none;">
 				<p class="title">Billing data</p>
-				<p class="notice">
-					All information are stored locally only. We don't have access to them.
-				</p>
-				<button class="left-arrow">
-					Shipping details
-				</button>
 				<div class="form-group">
 					<label for="credit_type">Card type</label>
 					<select class="form-control" id="credit_type">
@@ -313,14 +304,18 @@
 					<input type="text" id="credit_cvv" />
 				</div>
 				<button type="button" class="submit">Save</button>
+				<button class="left-arrow">
+					Shipping details
+				</button>
 			</div>
 		</div>
+		<a href="#" title="Back to menu"><span class="left"></span></a>
 	</div>
 	<div class="page" id="usage">
-		<a href="#" title="Back to menu"><span class="left"></span></a>
 		<h1>Usage</h1>
 
 		<p>Don't have the time actually.</p>
+		<a href="#" title="Back to menu"><span class="left"></span></a>
 	</div>
 	<footer>
 		© CHLEC
