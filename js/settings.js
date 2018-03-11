@@ -81,9 +81,10 @@ $(document).ready(function() {
 		(function displayOption() {
 			var options = JSON.parse(localStorage.options);
 
-			Object.keys(options).forEach(key => {
-				if (!options[key])
-					document.querySelector(`[name=${key}]`).classList.add("disabled");
+			document.querySelectorAll('.option').forEach(el => {
+				let name = el.getAttribute("name");
+				if (!options[name])
+					el.classList.add("disabled");
 			});
 		})();
 
@@ -264,10 +265,16 @@ $(document).ready(function() {
 			if (!localStorage.store)
 				return setTimeout(showDataByRegion, 500);
 			else if (localStorage.store === "us") {
-				$(".form-group").eq(9).css("display", "none"); //address 3 form
-				$(".form-group").eq(12).css("display", "block"); //state form
-				document.getElementById("state").style.display = 'block';
+				$(".form-group").eq(9).css("display", "none"); //address 3 input
+				$(".form-group").eq(12).css("display", "block"); //state input
 				requiredShipping.push("state");
+			} else if (localStorage.store === "jpn") {
+				$(".form-group").eq(8).css("display", "none"); //address 3 input
+				$(".form-group").eq(7).css("display", "none"); //address 2 input
+				$(".form-group").eq(13).css("display", "none"); //country input
+				$(".form-group").eq(12).css("display", "block"); //state input
+				requiredShipping.push("state");
+				requiredShipping.splice("country", 1)
 			}
 		})();
 
@@ -320,14 +327,15 @@ $(document).ready(function() {
 			var data = localStorage.data ? JSON.parse(localStorage.data) : {};
 			var error = false;
 
-			requiredBilling.forEach(input => {
-				input = $("#" + input);
-				if (!input.val()) {
-					error = true;
-					input.parent().addClass("invalid").addClass("shake");
-					setTimeout(() => input.parent().removeClass("shake"), 400);
-				}
-			});
+			if ($("#credit_type").val() !== "cod" && $("#credit_type").val() !== "paypal")
+	 			requiredBilling.forEach(input => {
+					input = $("#" + input);
+					if (!input.val()) {
+						error = true;
+						input.parent().addClass("invalid").addClass("shake");
+						setTimeout(() => input.parent().removeClass("shake"), 400);
+					}
+				});
 
 			if (!error) {
 				$("#billing .form-group").each(function() {

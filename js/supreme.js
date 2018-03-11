@@ -21,50 +21,78 @@ if (CHECK_URL.checkout()) {
 			var store = rep[2];
 
 			if (options.autoFill) {
-				fill(document.getElementById("order_billing_country"), d.country);
-				fill(document.getElementById("order_billing_name"), d.fullname);
-				fill(document.getElementById("order_email"), d.email);
-				fill(document.getElementById("order_tel"), d.phone);
-				fill(document.getElementById("bo"), d.addr1);
-				fill(document.getElementById("oba3"), d.addr2);
-				if (store === "gb")
-					fill(document.getElementById("order_billing_address_3"), d.addr3);
-				fill(document.getElementById("order_billing_zip"), d.zip);
-				fill(document.getElementById("order_billing_city"), d.city);
+				if (store !== 'jpn') {
+					// Auto-fill for EU and US
+					fill(document.getElementById("order_billing_country"), d.country);
+					fill(document.getElementById("order_billing_name"), d.fullname);
+					fill(document.getElementById("order_email"), d.email);
+					fill(document.getElementById("order_tel"), d.phone);
+					fill(document.getElementById("bo"), d.addr1);
+					fill(document.getElementById("oba3"), d.addr2);
+					if (store === "gb")
+						fill(document.getElementById("order_billing_address_3"), d.addr3);
+					fill(document.getElementById("order_billing_zip"), d.zip);
+					fill(document.getElementById("order_billing_city"), d.city);
 
-				if (store === "us")
+					if (store === "us")
+						fill(document.getElementById("order_billing_state"), d.state);
+					
+					fill(document.getElementById("card_details").childNodes[0].childNodes[1], d.credit_num);
+					if (store === "gb")
+						fill(document.getElementById("credit_card_type"), d.credit_type);
+
+					fill(document.getElementById("credit_card_month"), d.credit_month);
+					fill(document.getElementById("credit_card_year"), d.credit_year);
+					fill(document.getElementById("vval") || document.getElementById("orcer"), d.credit_cvv);
+
+					document.querySelector('.has-checkbox.terms').classList.add("hover");
+
+					document.querySelector('.terms > .icheckbox_minimal').classList.add("hover");
+					setTimeout(() => {
+						document.querySelector('.terms > .icheckbox_minimal').classList.add("active");
+						setTimeout(() => {
+							document.querySelector('.terms > .icheckbox_minimal').classList.remove("active");
+							document.querySelector('.terms > .icheckbox_minimal').classList.add("checked");
+							document.querySelector('.terms > .icheckbox_minimal').classList.remove("hover");
+							document.getElementsByName("order[terms]").forEach(e => e.click())
+						}, 150);
+					}, 150);
+
+					if (options.autoSubmit) {
+						setTimeout(() => {
+							/*
+							* Does not work actually. The code below should enable the captcha but this is in jQuery,
+							* I want to use pure JS only.
+
+							document.getElementsByName("commit")[0].trigger($.Event( "click", { originalEvent: true } ));
+							*/
+						}, 500);
+					}
+				} else {
+					// Auto-fill for JAPAN. This is not the same form
+					let name_split = d.fullname.split(" ");
+					let last_name = name_split.pop();
+					name_split.slice(-1, 1);
+					let first_name = name_split.join(" ");
+
+					fill(document.getElementById("credit_card_last_name"), last_name);
+					fill(document.getElementById("credit_card_first_name"), first_name);
+					fill(document.getElementById("order_email"), d.email);
+					fill(document.getElementById("order_tel"), d.phone);
+					fill(document.getElementById("order_billing_address"), d.addr1);
+					fill(document.getElementById("order_billing_zip"), d.zip);
+					fill(document.getElementById("order_billing_city"), d.city);
 					fill(document.getElementById("order_billing_state"), d.state);
-				
-				fill(document.getElementById("card_details").childNodes[0].childNodes[1], d.credit_num);
-				if (store === "gb")
 					fill(document.getElementById("credit_card_type"), d.credit_type);
 
-				fill(document.getElementById("credit_card_month"), d.credit_month);
-				fill(document.getElementById("credit_card_year"), d.credit_year);
-				fill(document.getElementById("vval") || document.getElementById("orcer"), d.credit_cvv);
+					if (d.credit_type !== "cod") {
+						fill(document.getElementById("card_details").childNodes[0].childNodes[1], d.credit_num);
+						fill(document.getElementById("credit_card_month"), d.credit_month);
+						fill(document.getElementById("credit_card_year"), d.credit_year);
+						fill(document.getElementById("vval"), d.credit_cvv);
+					}
 
-				document.querySelector('.has-checkbox.terms').classList.add("hover");
-
-				document.querySelector('.terms > .icheckbox_minimal').classList.add("hover");
-				setTimeout(() => {
-					document.querySelector('.terms > .icheckbox_minimal').classList.add("active");
-					setTimeout(() => {
-						document.querySelector('.terms > .icheckbox_minimal').classList.remove("active");
-						document.querySelector('.terms > .icheckbox_minimal').classList.add("checked");
-						document.querySelector('.terms > .icheckbox_minimal').classList.remove("hover");
-						document.getElementsByName("order[terms]").forEach(e => e.click())
-					}, 150);
-				}, 150);
-
-				if (options.autoSubmit) {
-					setTimeout(() => {
-						/*
-						* Does not work actually. The code below should enable the captcha but this is in jQuery,
-						* I want to use pure JS only.
-
-						document.getElementsByName("commit")[0].trigger($.Event( "click", { originalEvent: true } ));
-						*/
-					}, 500);
+					document.getElementById("order_terms").click();
 				}
 			}
 		}

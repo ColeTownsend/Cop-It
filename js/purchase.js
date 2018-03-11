@@ -63,36 +63,79 @@ function getSizeId(select, sizes, fn) {
 
 function searchItem(keyword, dom) {
 	return new Promise((found, notfound) => {
-		var items = dom.getElementsByTagName("article").length
-			? dom.getElementsByTagName("article")
-			: dom.getElementById("container").childNodes;
-		var END = false;
+		// EU / US keywords finds function
+		chrome.runtime.sendMessage({msg: "store"}, store => {
+			if (store !== 'jpn') {
+				var items = dom.getElementsByTagName("article").length
+					? dom.getElementsByTagName("article")
+					: dom.getElementById("container").childNodes;
+				var END = false;
 
-		if (items.length != 0) {
-			Array.prototype.forEach.call(items, (item, itemId, itemArr) => {
-				if (item.childNodes) {
-					let item_url = item.innerHTML.match(/\s*(href)=\"([^"]+)"/)[2];
-					let item_name = item.innerText.toLowerCase().replace(/[^\x20-\x7E]/g, '');
-					let item_color = item.childNodes[0].childNodes[2].childNodes[0].textContent.toLowerCase().replace(/[^\x20-\x7E]/g, '');
-					let item_soldout = item.innerHTML.replace(/[^\x20-\x7E]/g, '').indexOf("sold out") > -1;
-					var matches = 0;
-					keyword.keywords.split(" ").forEach((word, i, arr) => {
-						if (item_name.indexOf(word) > -1)
-							matches++;
-						if (i === arr.length - 1) {
-							var colorFound = keyword.color === ' '
-								? true
-								: item_color.indexOf(keyword.color) > -1;
-							if (matches == arr.length && colorFound && !item_soldout) {
-								return found(item_url);
-							} else if (itemId === itemArr.length - 1) {
-								return notfound();
-							}
+				if (items.length != 0) {
+					Array.prototype.forEach.call(items, (item, itemId, itemArr) => {
+						if (item.childNodes) {
+							let item_url = item.innerHTML.match(/\s*(href)=\"([^"]+)"/)[2];
+							let item_name = item.innerText.toLowerCase().replace(/[^\x20-\x7E]/g, '');
+							let item_color = item.childNodes[0].childNodes[2].childNodes[0].textContent.toLowerCase().replace(/[^\x20-\x7E]/g, '');
+							let item_soldout = item.innerHTML.replace(/[^\x20-\x7E]/g, '').indexOf("sold out") > -1;
+							let matches = 0;
+							let colorFound;
+
+							keyword.keywords.split(" ").forEach((word, i, arr) => {
+								if (item_name.indexOf(word) > -1)
+									matches++;
+								if (i === arr.length - 1) {
+									colorFound = keyword.color === ' ' || item_color.indexOf(keyword.color) > -1;
+									if (matches == arr.length && colorFound && !item_soldout) {
+										return found(item_url);
+									} else if (itemId === itemArr.length - 1) {
+										return notfound();
+									}
+								}
+							})
 						}
-					})
+					});
 				}
-			});
-		}
+			} else {
+				// JPN keywords finds function
+				chrome.runtime.sendMessage({msg: "alt_data"}, function(itemsData) {
+					var items = dom.getElementsByTagName("article").length
+					? dom.getElementsByTagName("article")
+					: dom.getElementById("container").childNodes;
+					var END = false;
+
+					if (items.length != 0) {
+						Array.prototype.forEach.call(items, (item, itemId, itemArr) => {
+							if (item.childNodes) {
+								let item_url = item.innerHTML.match(/\s*(href)=\"([^"]+)"/)[2];
+								let item_alt = item.querySelector('img').alt;
+								let itemData = itemsData.items.find(el => el.alt === item_alt);
+								let item_soldout = item.innerHTML.replace(/[^\x20-\x7E]/g, '').indexOf("sold out") > -1;
+								let item_name = itemData.name.toLowerCase();
+								let item_color = itemData.color.toLowerCase();
+								let matches = 0;
+								let colorFound;
+
+								keyword.keywords.split(" ").forEach((word, i, arr) => {
+									if (item_name.indexOf(word) > -1)
+										matches++;
+									if (i === arr.length - 1) {
+										colorFound = keyword.color === ' ' || item_color.indexOf(keyword.color) > -1;
+										if (matches == arr.length && colorFound && !item_soldout) {
+											return found(item_url);
+										} else if (itemId === itemArr.length - 1) {
+											return notfound();
+										}
+									}
+								})
+							//
+		
+							}
+						});
+					}
+				})
+			}
+		});
 	});
 }
 
@@ -114,7 +157,7 @@ function get(url)
 	            accept(xmlHttp.responseText);
 	    }
 	    xmlHttp.ontimeout = () => accept(get(url));
-	    xmlHttp.timeout = 750;
+	    xmlHttp.timeout = 1000;
 	    xmlHttp.open("GET", url, true);
 	    xmlHttp.send(null);
 	});
@@ -128,8 +171,8 @@ function post(url, params)
 	        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
 	        	accept();
 	    }
-	    xmlHttp.ontimeout = () => accept(get(url));
-	    xmlHttp.timeout = 750;
+	    xmlHttp.ontimeout = () => accept(post(url, params));
+	    xmlHttp.timeout = 1000;
 	    xmlHttp.open("POST", url, true);
 	    xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    xmlHttp.send(params);

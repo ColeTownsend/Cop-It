@@ -2,6 +2,7 @@
 
 let HOST;
 let socket;
+let itemsData;
 localStorage.BOT_RUNNING = 0;
 localStorage.data = localStorage.data || "{}";
 localStorage.options = localStorage.options || "{}";
@@ -15,10 +16,18 @@ localStorage.options = localStorage.options || "{}";
 chrome.runtime.onMessage.addListener((req, sender, rep) => {
 	switch(req.msg) {
 		case 'start':
+			if (localStorage.store === "jpn") {
+				const data = fetch("http://copit.fr/get_last_data.json")
+
+				data
+					.then(rep => rep.json())
+					.then(data => {
+						itemsData = data
+					})
+			}
 			Supreme.getTabId()
 				.then(tabId => {
-					var datas = localStorage.data ? JSON.parse(localStorage.data) : {};
-					var options = localStorage.options ? JSON.parse(localStorage.options) : {};
+					let options = localStorage.options ? JSON.parse(localStorage.options) : {};
 
 					Supreme.updateUrl(tabId, "http://www.supremenewyork.com/shop")
 						.then(() => {
@@ -29,7 +38,7 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 								socket = new WebSocket(`ws://${HOST}/newdrop`);
 
 								socket.onopen = () => {
-									var ping = setInterval(() => {
+									let ping = setInterval(() => {
 										if (socket && socket.readyState === WebSocket.OPEN)
 											socket.send('ping');
 										else {
@@ -56,13 +65,12 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 		case 'restock':
 			Supreme.getTabId()
 				.then(tabId => {
-					var datas = localStorage.data ? JSON.parse(localStorage.data) : {};
-					var keywords = localStorage.keywords ? JSON.parse(localStorage.keywords) : {};
+					let keywords = localStorage.keywords ? JSON.parse(localStorage.keywords) : {};
 					socket = new WebSocket(`ws://${HOST}/restock`);
 					localStorage.BOT_RUNNING = 1;
 
 					socket.onopen = () => {
-						var ping = setInterval(() => {
+						let ping = setInterval(() => {
 							if (socket && socket.readyState === WebSocket.OPEN)
 								socket.send('ping');
 							else {
@@ -73,14 +81,14 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 					};
 					socket.onmessage = event => {
 						if (event.data !== "ping") {
-							var item = JSON.parse(event.data);
+							let item = JSON.parse(event.data);
 		
-							for (var keyword of Object.values(keywords)) {
+							for (let keyword of Object.values(keywords)) {
 								keyword = JSON.parse(keyword);
 								if (item.url.split('/')[2] == keyword.category) {
 									if (keyword.color == " " || item.color.toLowerCase().replace(/[^\x20-\x7E]/g, '').indexOf(keyword.color) > -1) {
-										var allkeywords = keyword.keywords.split(" ");
-										var matches = 0;
+										let allkeywords = keyword.keywords.split(" ");
+										let matches = 0;
 										allkeywords.forEach(kw => {
 											if (item.name.toLowerCase().replace(/[^\x20-\x7E]/g, '').indexOf(kw) > -1)
 												matches++;
@@ -100,6 +108,12 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 				}, () => {
 					alert("You must have a tab on supremenewyork.com to wait for restock");
 				})
+			break;
+		case 'alt_data':
+			rep(itemsData);
+			break;
+		case 'store':
+			rep(localStorage.store);
 			break;
 		case 'cop':
 			rep([JSON.parse(localStorage.keywords), JSON.parse(localStorage.options)]);
@@ -123,7 +137,7 @@ const Supreme = {
 	getTabId: function() {
 		return new Promise(function(accept, reject) {
 			chrome.tabs.query({}, tabs => {
-				for (var tab in tabs) {
+				for (let tab in tabs) {
 		    		if (tabs[tab].url.indexOf("supremenewyork.com") > -1) {
 		    			accept(parseInt(tabs[tab].id));
 		    			break;

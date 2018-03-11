@@ -1,13 +1,13 @@
 'use strict';
 
-var el;
-var datas = localStorage.data ? JSON.parse(localStorage.data) : {};
-var keywords = localStorage.keywords ? JSON.parse(localStorage.keywords) : {};
-var options = localStorage.options ? JSON.parse(localStorage.options) : {};
-var rotation_deg = 0;
-var settingsRotation;
-var footer = document.querySelector(".footer");
-var rotate = function() {
+let el;
+let datas = localStorage.data ? JSON.parse(localStorage.data) : {};
+let keywords = localStorage.keywords ? JSON.parse(localStorage.keywords) : {};
+let options = localStorage.options ? JSON.parse(localStorage.options) : {};
+let rotation_deg = 0;
+let settingsRotation;
+let footer = document.querySelector(".footer");
+let rotate = function() {
 	settingsRotation = setInterval(function() {
 		anime({
 			targets: '#settings',
@@ -54,7 +54,7 @@ footer.onmouseleave = function() {
 	});
 }	
 
-if (Object.keys(datas).length > 10 && Object.keys(keywords).length > 0 && options.enable)
+if (Object.keys(datas).length > 1 && Object.keys(keywords).length > 0 && options.enable)
 {
 	el = document.querySelector("#start");
 	el.classList.remove('disabled');
@@ -65,6 +65,7 @@ if (Object.keys(datas).length > 10 && Object.keys(keywords).length > 0 && option
 		this.classList.add('disabled');
 		this.classList.remove('start');
 		this.value = "Bot running...";
+		this.onclick = undefined
 	}
 
 	if (!parseInt(localStorage.BOT_RUNNING) && options.copOnRestock)
