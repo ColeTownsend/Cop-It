@@ -1,5 +1,7 @@
 # Cop It
 
+Now uploaded on Chrome Web Store! Available at this URL: https://chrome.google.com/webstore/detail/dbelefchafnmkfafmaifggijflgnigia/  
+
 Cop It is a Chrome Extension used to purchase any Supreme's item on each drop. Works on Windows, Mac and Linux.
 Design is very simplist but it works nice.
 
