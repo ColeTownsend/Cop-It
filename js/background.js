@@ -3,6 +3,7 @@
 let HOST;
 let socket;
 let itemsData;
+let ping;
 localStorage.BOT_RUNNING = 0;
 localStorage.data = localStorage.data || "{}";
 localStorage.options = localStorage.options || "{}";
@@ -38,7 +39,7 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 								socket = new WebSocket(`ws://${HOST}/newdrop`);
 
 								socket.onopen = () => {
-									let ping = setInterval(() => {
+									ping = setInterval(() => {
 										if (socket && socket.readyState === WebSocket.OPEN)
 											socket.send('ping');
 										else {
@@ -70,7 +71,7 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 					localStorage.BOT_RUNNING = 1;
 
 					socket.onopen = () => {
-						let ping = setInterval(() => {
+						ping = setInterval(() => {
 							if (socket && socket.readyState === WebSocket.OPEN)
 								socket.send('ping');
 							else {
@@ -82,7 +83,7 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 					socket.onmessage = event => {
 						if (event.data !== "ping") {
 							let item = JSON.parse(event.data);
-		
+
 							for (let keyword of Object.values(keywords)) {
 								keyword = JSON.parse(keyword);
 								if (item.url.split('/')[2] == keyword.category) {
