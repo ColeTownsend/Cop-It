@@ -59,15 +59,6 @@ if (CHECK_URL.checkout()) {
 						}, 150);
 					}, 150);
 
-					if (options.autoSubmit) {
-						setTimeout(() => {
-							/*
-							* autoSubmit recently added. It should works but I never try on a new drop, we'll be fixed soon...
-							* Use with caution!!!
-							*/
-							simulateClick(document.getElementsByName("commit")[0]);
-						}, 1500);
-					}
 				} else {
 					// Auto-fill for JAPAN. This is not the same form
 					let name_split = d.fullname.split(" ");
@@ -93,6 +84,15 @@ if (CHECK_URL.checkout()) {
 					}
 
 					document.getElementById("order_terms").click();
+				}
+				if (options.autoSubmit) {
+					setTimeout(() => {
+						/*
+						* autoSubmit recently added. It should works but I never try on a new drop, we'll be fixed soon...
+						* Use with caution!!!
+						*/
+						simulateClick(document.getElementsByName("commit")[0]);
+					}, 1500);
 				}
 			}
 		}
