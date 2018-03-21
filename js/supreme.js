@@ -38,6 +38,7 @@ if (CHECK_URL.checkout()) {
 						fill(document.getElementById("order_billing_state"), d.state);
 					
 					fill(document.getElementById("card_details").childNodes[0].childNodes[1], d.credit_num);
+					
 					if (store === "gb")
 						fill(document.getElementById("credit_card_type"), d.credit_type);
 
@@ -54,19 +55,18 @@ if (CHECK_URL.checkout()) {
 							document.querySelector('.terms > .icheckbox_minimal').classList.remove("active");
 							document.querySelector('.terms > .icheckbox_minimal').classList.add("checked");
 							document.querySelector('.terms > .icheckbox_minimal').classList.remove("hover");
-							document.getElementsByName("order[terms]").forEach(e => e.click())
+							document.getElementsByName("order[terms]").forEach(e => e.click());
 						}, 150);
 					}, 150);
 
 					if (options.autoSubmit) {
 						setTimeout(() => {
 							/*
-							* Does not work actually. The code below should enable the captcha but this is in jQuery,
-							* I want to use pure JS only.
-
-							document.getElementsByName("commit")[0].trigger($.Event( "click", { originalEvent: true } ));
+							* autoSubmit recently added. It should works but I never try on a new drop, we'll be fixed soon...
+							* Use with caution!!!
 							*/
-						}, 500);
+							simulateClick(document.getElementsByName("commit")[0]);
+						}, 1500);
 					}
 				} else {
 					// Auto-fill for JAPAN. This is not the same form
@@ -149,4 +149,14 @@ function fill(el, value) {
 		el.value = value;
 		el.dispatchEvent(evt);
 	}
+}
+
+function simulateClick(el) {
+    let evt;
+
+    if (document.createEvent) {
+        evt = document.createEvent("MouseEvents");
+        evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    }
+    (evt) ? el.dispatchEvent(evt) : (el.click && el.click());
 }

@@ -4,8 +4,8 @@
   "name": "Cop It Supreme Bot",
   "short_name": "Cop It",
   "description": "Cop now all Supreme's items you always wanted easily!",
-  "version": "2.0.1",
-  "author": "CHLEC",
+  "version": "2.0.3",
+  "author": "Charles Lecalier <c@live.fr>",
   "icons": {
     "256": "img/logo.png"
   },
