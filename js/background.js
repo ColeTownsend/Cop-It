@@ -4,6 +4,7 @@ let HOST;
 let socket;
 let itemsData;
 let ping;
+
 localStorage.BOT_RUNNING = 0;
 localStorage.data = localStorage.data || "{}";
 localStorage.options = localStorage.options || "{}";
@@ -18,9 +19,7 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 	switch(req.msg) {
 		case 'start':
 			if (localStorage.store === "jpn") {
-				const data = fetch("http://copit.fr/get_last_data.json")
-
-				data
+				fetch("http://copit.fr/get_last_data.json")
 					.then(rep => rep.json())
 					.then(data => {
 						itemsData = data
@@ -35,7 +34,8 @@ chrome.runtime.onMessage.addListener((req, sender, rep) => {
 							Supreme.injectJS(tabId,
 								`document.getElementsByClassName("logo")[0].innerHTML = '<div class="bogo"><div class="sup"><p>Cop It</p></div></div>';` +
 								`document.getElementsByTagName("time")[0].innerHTML = "Waiting for the new drop..."`);
-							if (options.autoStart) {
+
+							if (options.autoStart && isBeforeTheDrop(new Date)) {
 								socket = new WebSocket(`ws://${HOST}/newdrop`);
 
 								socket.onopen = () => {
@@ -187,3 +187,23 @@ const Supreme = {
 		return { cancel: true }
 	}
 };
+
+function isBeforeTheDrop(date) {
+	const day = date.getUTCDay()
+	const hours = date.getUTCHours()
+	const minutes = date.getUTCMinutes()
+
+	switch(localStorage.store) {
+		case 'gb':
+			// If we're on Thursday and it's before 11 am UTC, we connect to the server to wait for the new drop
+			return day === 4 && hours < 11
+		case 'us':
+			// The same except it's 4 pm UTC
+			return day === 4 && hours < 16
+		case 'jpn':
+			// For japan this is on saturday and at 2 am UTC
+			return day === 6 && hours < 2
+	}
+
+	return true
+}
