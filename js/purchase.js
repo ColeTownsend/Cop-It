@@ -1,11 +1,12 @@
 chrome.runtime.sendMessage({msg: "cop"}, function(rep) {
-	var keywords = rep[0];
-	var options = rep[1];
-	var id = keywords.firstKey();
+	let keywords = rep[0];
+	let options = rep[1];
+	let id = keywords.firstKey();
+	let retryCount = 0;
 
 	(function find(id) {
 		if (keywords[id]) {
-			var current = JSON.parse(keywords[id]);
+			let current = JSON.parse(keywords[id]);
 
 			document.getElementsByTagName("time")[0].innerHTML = `Copping item: "${current.keywords}"`;
 			getPage('/shop/all/' + current.category, pageContent => {
@@ -14,7 +15,7 @@ chrome.runtime.sendMessage({msg: "cop"}, function(rep) {
 						getPage(url, doc => {
 							url = doc.getElementById("cart-addf").getAttribute("action");
 							getSizeId(doc.getElementById("size") || doc.getElementById("s"), current.size, sizeId => {
-								var style = (doc.getElementById("style") || doc.getElementById("s")).value;
+								let style = (doc.getElementById("style") || doc.getElementById("s")).value;
 								post(url, "utf8=✓&style=" + style + "&size=" + sizeId)
 									.then(() => find(id.nextKey(keywords)));
 							});
@@ -25,24 +26,30 @@ chrome.runtime.sendMessage({msg: "cop"}, function(rep) {
 					});
 			});
 		} else {
-			var re = new RegExp(" cart=([^; ]{1})");
-			var itemInCart = re.exec(document.cookie) !== null
+			let re = new RegExp(" cart=([^; ]{1})");
+			let itemInCart = re.exec(document.cookie) !== null
 							? parseInt(re.exec(document.cookie)[1])
-							: 0;
+							: 0;	
 
 			if (itemInCart > 0 && !isNaN(itemInCart))
 					location.href = options.checkCart
 						? "http://www.supremenewyork.com/shop/cart"
 						: "https://www.supremenewyork.com/checkout";
 			else {
-				alert("No items found.");
+				if (options.retryIfNotFound && retryCount < 10) {
+					retryCount++;
+					id = keywords.firstKey();
+					find(id);
+				}
+				else
+					alert("No items found. Keywords are not correct or items are soldout.");
 			}
 		}
 	})(id);
 });
 
 function getSizeId(select, sizes, fn) {
-	var sizeId;
+	let sizeId;
 
 	if (select.type === "hidden")
 		return fn(select.value);
@@ -51,7 +58,7 @@ function getSizeId(select, sizes, fn) {
 
 	sizes.reverse().forEach((size, i, arr) => {
 		for (option of select) {
-			var text = option != undefined ? option.innerText : size;
+			let text = option != undefined ? option.innerText : size;
 
 			if (text === size)
 				sizeId = option.value;
@@ -66,10 +73,10 @@ function searchItem(keyword, dom) {
 		// EU / US keywords finds function
 		chrome.runtime.sendMessage({msg: "store"}, store => {
 			if (store !== 'jpn') {
-				var items = dom.getElementsByTagName("article").length
+				let items = dom.getElementsByTagName("article").length
 					? dom.getElementsByTagName("article")
 					: dom.getElementById("container").childNodes;
-				var END = false;
+				let END = false;
 
 				if (items.length != 0) {
 					Array.prototype.forEach.call(items, (item, itemId, itemArr) => {
@@ -99,10 +106,10 @@ function searchItem(keyword, dom) {
 			} else {
 				// JPN keywords finds function
 				chrome.runtime.sendMessage({msg: "alt_data"}, function(itemsData) {
-					var items = dom.getElementsByTagName("article").length
+					let items = dom.getElementsByTagName("article").length
 					? dom.getElementsByTagName("article")
 					: dom.getElementById("container").childNodes;
-					var END = false;
+					let END = false;
 
 					if (items.length != 0) {
 						Array.prototype.forEach.call(items, (item, itemId, itemArr) => {
@@ -128,8 +135,6 @@ function searchItem(keyword, dom) {
 										}
 									}
 								})
-							//
-		
 							}
 						});
 					}
@@ -142,8 +147,8 @@ function searchItem(keyword, dom) {
 function getPage(url, go) {
 	get(url)
 		.then(html => {
-			var dom = new DOMParser();
-			var doc = dom.parseFromString(html, "text/html");
+			let dom = new DOMParser();
+			let doc = dom.parseFromString(html, "text/html");
 			go(doc);
 		});
 }
@@ -151,7 +156,7 @@ function getPage(url, go) {
 function get(url)
 {
 	return new Promise(function(accept) {
-		var xmlHttp = new XMLHttpRequest();
+		let xmlHttp = new XMLHttpRequest();
 	    xmlHttp.onreadystatechange = function() { 
 	        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
 	            accept(xmlHttp.responseText);
@@ -166,7 +171,7 @@ function get(url)
 function post(url, params)
 {
 	return new Promise(function(accept) {
-		var xmlHttp = new XMLHttpRequest();
+		let xmlHttp = new XMLHttpRequest();
 	    xmlHttp.onreadystatechange = function() { 
 	        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
 	        	accept();
@@ -180,12 +185,12 @@ function post(url, params)
 }
 
 Object.prototype.firstKey = function() {
-	for (var i in this)
+	for (let i in this)
 		return parseInt(i);
 };
 
 Number.prototype.nextKey = function(arr) {
-	for (var i in arr) {
+	for (let i in arr) {
 		if (i > this)
 			return parseInt(i);
 	}
