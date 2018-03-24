@@ -39,7 +39,7 @@ chrome.runtime.sendMessage({msg: "cop"}, function(rep) {
 				if (options.retryIfNotFound && retryCount < 10) {
 					retryCount++;
 					id = keywords.firstKey();
-					find(id);
+					setTimeout(() => find(id), 950);
 				}
 				else
 					alert("No items found. Keywords are not correct or items are soldout.");
