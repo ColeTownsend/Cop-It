@@ -117,24 +117,26 @@ function searchItem(keyword, dom) {
 								let item_url = item.innerHTML.match(/\s*(href)=\"([^"]+)"/)[2];
 								let item_alt = item.querySelector('img').alt;
 								let itemData = itemsData.items.find(el => el.alt === item_alt);
-								let item_soldout = item.innerHTML.replace(/[^\x20-\x7E]/g, '').indexOf("sold out") > -1;
-								let item_name = itemData.name.toLowerCase();
-								let item_color = itemData.color.toLowerCase();
-								let matches = 0;
-								let colorFound;
+								if (itemData) {
+									let item_soldout = item.innerHTML.replace(/[^\x20-\x7E]/g, '').indexOf("sold out") > -1;
+									let item_name = itemData.name.toLowerCase();
+									let item_color = itemData.color.toLowerCase();
+									let matches = 0;
+									let colorFound;
 
-								keyword.keywords.split(" ").forEach((word, i, arr) => {
-									if (item_name.indexOf(word) > -1)
-										matches++;
-									if (i === arr.length - 1) {
-										colorFound = keyword.color === ' ' || item_color.indexOf(keyword.color) > -1;
-										if (matches == arr.length && colorFound && !item_soldout) {
-											return found(item_url);
-										} else if (itemId === itemArr.length - 1) {
-											return notfound();
+									keyword.keywords.split(" ").forEach((word, i, arr) => {
+										if (item_name.indexOf(word) > -1)
+											matches++;
+										if (i === arr.length - 1) {
+											colorFound = keyword.color === ' ' || item_color.indexOf(keyword.color) > -1;
+											if (matches == arr.length && colorFound && !item_soldout) {
+												return found(item_url);
+											} else if (itemId === itemArr.length - 1) {
+												return notfound();
+											}
 										}
-									}
-								})
+									})
+								}
 							}
 						});
 					}

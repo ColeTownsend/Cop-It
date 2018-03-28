@@ -259,7 +259,7 @@ $(document).ready(function() {
 	*/
 		var requiredShipping = ["fullname", "email", "phone", "addr1", "city", "zip", "country"];
 		var requiredBilling = ["credit_type", "credit_num", "credit_month", "credit_year", "credit_cvv"];
-		var details = JSON.parse(localStorage.data);
+		var details = localStorage.data ? JSON.parse(localStorage.data) : {};
 		
 		(function showDataByRegion() {
 			if (!localStorage.store)
@@ -270,11 +270,11 @@ $(document).ready(function() {
 				requiredShipping.push("state");
 			} else if (localStorage.store === "jpn") {
 				$(".form-group").eq(8).css("display", "none"); //address 3 input
-				$(".form-group").eq(7).css("display", "none"); //address 2 input
+				$(".form-group").eq(9).css("display", "none"); //address 2 input
 				$(".form-group").eq(13).css("display", "none"); //country input
 				$(".form-group").eq(12).css("display", "block"); //state input
 				requiredShipping.push("state");
-				requiredShipping.splice("country", 1)
+				requiredShipping.splice(requiredShipping.indexOf("country"), 1);
 			}
 		})();
 
