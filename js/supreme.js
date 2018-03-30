@@ -46,18 +46,22 @@ if (CHECK_URL.checkout()) {
 					fill(document.getElementById("credit_card_year"), d.credit_year);
 					fill(document.getElementById("vval") || document.getElementById("orcer"), d.credit_cvv);
 
-					document.querySelector('.has-checkbox.terms').classList.add("hover");
+					if (store === "us")
+						simulateClick(document.getElementById("order_terms"));
+					else {
+						document.querySelector('.has-checkbox.terms').classList.add("hover");
 
-					document.querySelector('.terms > .icheckbox_minimal').classList.add("hover");
-					setTimeout(() => {
-						document.querySelector('.terms > .icheckbox_minimal').classList.add("active");
+						document.querySelector('.terms > .icheckbox_minimal').classList.add("hover");
 						setTimeout(() => {
-							document.querySelector('.terms > .icheckbox_minimal').classList.remove("active");
-							document.querySelector('.terms > .icheckbox_minimal').classList.add("checked");
-							document.querySelector('.terms > .icheckbox_minimal').classList.remove("hover");
-							document.getElementsByName("order[terms]").forEach(e => e.click());
+							document.querySelector('.terms > .icheckbox_minimal').classList.add("active");
+							setTimeout(() => {
+								document.querySelector('.terms > .icheckbox_minimal').classList.remove("active");
+								document.querySelector('.terms > .icheckbox_minimal').classList.add("checked");
+								document.querySelector('.terms > .icheckbox_minimal').classList.remove("hover");
+								document.getElementsByName("order[terms]").forEach(e => e.click());
+							}, 150);
 						}, 150);
-					}, 150);
+					}
 
 				} else {
 					// Auto-fill for JAPAN. This is not the same form
@@ -83,7 +87,7 @@ if (CHECK_URL.checkout()) {
 						fill(document.getElementById("vval"), d.credit_cvv);
 					}
 
-					document.getElementById("order_terms").click();
+					simulateClick(document.getElementById("order_terms"));
 				}
 				if (options.autoSubmit) {
 					setTimeout(() => {
